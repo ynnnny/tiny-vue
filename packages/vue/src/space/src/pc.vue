@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { renderless } from '@opentiny/vue-renderless/space/vue'
 import type { SpaceProps } from '@opentiny/vue-renderless/types/space.type'
 
@@ -38,7 +38,7 @@ export default defineComponent({
     }
   },
   setup(props: SpaceProps, context) {
-    const api = renderless(props, context)
+    const api = renderless(props, { ...context, computed })
 
     const spaceStyle = api.getSpaceStyle
 
