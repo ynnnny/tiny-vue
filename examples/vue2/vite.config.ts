@@ -23,7 +23,7 @@ export default defineConfig((config) => {
       open: false
     },
     plugins: [
-      virtualTemplatePlugin({ include: ['**/packages/vue/**/src/index.ts'], env }),
+      virtualTemplatePlugin({ include: ['**/packages/vue/**/src/index.ts', '**/packages/vue-common/**/*.ts'], env }),
       vue2Plugin({
         jsx: true,
         include: [/\.vue$/, /\.md$/]
