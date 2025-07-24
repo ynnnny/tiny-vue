@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue 2 Space Component Fix Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+    
+    .test-section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    
+    .tiny-space {
+      border: 1px dashed #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      background: #f9f9f9;
+    }
+    
+    .test-button {
+      padding: 8px 16px;
+      background: #409eff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    
+    .test-button:hover {
+      background: #66b1ff;
+    }
+    
+    .test-button.success {
+      background: #67c23a;
+    }
+    
+    .test-button.danger {
+      background: #f56c6c;
+    }
+    
+    .test-button.warning {
+      background: #e6a23c;
+    }
+    
+    h3 {
+      color: #333;
+      margin: 20px 0 10px 0;
+    }
+    
+    .gap-support-info {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    
+    .supports-gap {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .no-gap-support {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Vue 2 Space Component Fix Test</h1>
+    
+    <!-- Gap Support Detection -->
+    <div class="gap-support-info" :class="supportsGap ? 'supports-gap' : 'no-gap-support'">
+      <span v-if="supportsGap">✅ Your browser supports CSS flexbox gap</span>
+      <span v-else>⚠️ Your browser does not support CSS flexbox gap - using fallback</span>
+    </div>
+
+    <!-- Test Cases -->
+    <div class="test-section">
+      <h3>1. Basic Row Layout (Default)</h3>
+      <tiny-space :size="12">
+        <button class="test-button">Button 1</button>
+        <button class="test-button success">Button 2</button>
+        <button class="test-button danger">Button 3</button>
+      </tiny-space>
+    </div>
+
+    <div class="test-section">
+      <h3>2. Column Layout</h3>
+      <tiny-space direction="column" :size="16">
+        <button class="test-button">Button A</button>
+        <button class="test-button success">Button B</button>
+        <button class="test-button warning">Button C</button>
+      </tiny-space>
+    </div>
+
+    <div class="test-section">
+      <h3>3. Array Size (Horizontal: 20px, Vertical: 10px)</h3>
+      <tiny-space :size="[20, 10]" wrap style="width: 200px;">
+        <button class="test-button">Btn 1</button>
+        <button class="test-button success">Btn 2</button>
+        <button class="test-button danger">Btn 3</button>
+        <button class="test-button warning">Btn 4</button>
+        <button class="test-button">Btn 5</button>
+      </tiny-space>
+    </div>
+
+    <div class="test-section">
+      <h3>4. Named Sizes</h3>
+      <div>
+        <h4>Small (8px):</h4>
+        <tiny-space size="small">
+          <button class="test-button">Small 1</button>
+          <button class="test-button success">Small 2</button>
+          <button class="test-button danger">Small 3</button>
+        </tiny-space>
+        
+        <h4>Medium (16px):</h4>
+        <tiny-space size="medium">
+          <button class="test-button">Medium 1</button>
+          <button class="test-button success">Medium 2</button>
+          <button class="test-button danger">Medium 3</button>
+        </tiny-space>
+        
+        <h4>Large (24px):</h4>
+        <tiny-space size="large">
+          <button class="test-button">Large 1</button>
+          <button class="test-button success">Large 2</button>
+          <button class="test-button danger">Large 3</button>
+        </tiny-space>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>5. Alignment Options</h3>
+      <div>
+        <h4>Align Start:</h4>
+        <tiny-space align="flex-start" :size="12" style="height: 80px; border: 1px solid #999;">
+          <button class="test-button" style="height: 30px;">Short</button>
+          <button class="test-button success" style="height: 60px;">Tall</button>
+          <button class="test-button danger" style="height: 40px;">Medium</button>
+        </tiny-space>
+        
+        <h4>Align Center:</h4>
+        <tiny-space align="center" :size="12" style="height: 80px; border: 1px solid #999;">
+          <button class="test-button" style="height: 30px;">Short</button>
+          <button class="test-button success" style="height: 60px;">Tall</button>
+          <button class="test-button danger" style="height: 40px;">Medium</button>
+        </tiny-space>
+        
+        <h4>Align End:</h4>
+        <tiny-space align="flex-end" :size="12" style="height: 80px; border: 1px solid #999;">
+          <button class="test-button" style="height: 30px;">Short</button>
+          <button class="test-button success" style="height: 60px;">Tall</button>
+          <button class="test-button danger" style="height: 40px;">Medium</button>
+        </tiny-space>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>6. Justify Content Options</h3>
+      <div>
+        <h4>Justify Start:</h4>
+        <tiny-space justify="flex-start" :size="12" style="width: 400px; border: 1px solid #999;">
+          <button class="test-button">Start 1</button>
+          <button class="test-button success">Start 2</button>
+        </tiny-space>
+        
+        <h4>Justify Center:</h4>
+        <tiny-space justify="center" :size="12" style="width: 400px; border: 1px solid #999;">
+          <button class="test-button">Center 1</button>
+          <button class="test-button success">Center 2</button>
+        </tiny-space>
+        
+        <h4>Justify End:</h4>
+        <tiny-space justify="flex-end" :size="12" style="width: 400px; border: 1px solid #999;">
+          <button class="test-button">End 1</button>
+          <button class="test-button success">End 2</button>
+        </tiny-space>
+        
+        <h4>Justify Space Between:</h4>
+        <tiny-space justify="space-between" :size="12" style="width: 400px; border: 1px solid #999;">
+          <button class="test-button">Between 1</button>
+          <button class="test-button success">Between 2</button>
+          <button class="test-button danger">Between 3</button>
+        </tiny-space>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>7. Wrap Test</h3>
+      <tiny-space :size="[12, 8]" wrap style="width: 250px;">
+        <button class="test-button">Wrap 1</button>
+        <button class="test-button success">Wrap 2</button>
+        <button class="test-button danger">Wrap 3</button>
+        <button class="test-button warning">Wrap 4</button>
+        <button class="test-button">Wrap 5</button>
+        <button class="test-button success">Wrap 6</button>
+      </tiny-space>
+    </div>
+
+    <div class="test-section">
+      <h3>8. Dynamic Size Test</h3>
+      <div>
+        <label>Size: <input type="range" v-model="dynamicSize" min="0" max="50" step="2"> {{ dynamicSize }}px</label>
+        <br><br>
+        <tiny-space :size="dynamicSize">
+          <button class="test-button">Dynamic 1</button>
+          <button class="test-button success">Dynamic 2</button>
+          <button class="test-button danger">Dynamic 3</button>
+        </tiny-space>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Detect CSS gap support
+    function supportsFlexboxGap() {
+      try {
+        const testEl = document.createElement('div');
+        testEl.style.display = 'flex';
+        testEl.style.gap = '1px';
+        return testEl.style.gap === '1px';
+      } catch {
+        return false;
+      }
+    }
+
+    // Space Component Implementation with Gap Detection
+    Vue.component('tiny-space', {
+      props: {
+        size: {
+          type: [String, Number, Array],
+          default: 'small'
+        },
+        align: {
+          type: String,
+          default: 'flex-start'
+        },
+        justify: {
+          type: String,
+          default: 'flex-start'
+        },
+        direction: {
+          type: String,
+          default: 'row'
+        },
+        wrap: {
+          type: Boolean,
+          default: false
+        }
+      },
+      computed: {
+        supportsGap() {
+          return supportsFlexboxGap();
+        },
+        spaceStyle() {
+          const sizeMap = {
+            small: '8px',
+            medium: '16px',
+            large: '24px'
+          };
+
+          const parseGap = (gap) => {
+            if (typeof gap === 'number') return `${gap}px`;
+            if (gap in sizeMap) return sizeMap[gap];
+            if (typeof gap === 'string') return gap;
+            return '0px';
+          };
+
+          const baseStyle = {
+            display: 'flex',
+            flexDirection: this.direction || 'row',
+            alignItems: this.align || 'flex-start',
+            justifyContent: this.justify || 'flex-start',
+            flexWrap: this.wrap ? 'wrap' : 'nowrap'
+          };
+
+          if (this.supportsGap) {
+            // Use CSS gap if supported
+            let gapStyle = {};
+            if (Array.isArray(this.size)) {
+              const [horizontal, vertical] = this.size;
+              gapStyle.gap = `${parseGap(vertical)} ${parseGap(horizontal)}`;
+            } else {
+              gapStyle.gap = parseGap(this.size);
+            }
+            return { ...baseStyle, ...gapStyle };
+          }
+
+          return baseStyle;
+        },
+        childSpacing() {
+          if (this.supportsGap) return {};
+
+          const sizeMap = {
+            small: 8,
+            medium: 16,
+            large: 24
+          };
+
+          const parseGap = (gap) => {
+            if (typeof gap === 'number') return gap;
+            if (gap in sizeMap) return sizeMap[gap];
+            if (typeof gap === 'string') {
+              const numMatch = gap.match(/^(\d+(?:\.\d+)?)/);
+              return numMatch ? parseFloat(numMatch[1]) : 0;
+            }
+            return 0;
+          };
+
+          let horizontal, vertical;
+          if (Array.isArray(this.size)) {
+            horizontal = parseGap(this.size[0]);
+            vertical = parseGap(this.size[1]);
+          } else {
+            horizontal = vertical = parseGap(this.size);
+          }
+
+          return { horizontal, vertical };
+        }
+      },
+      methods: {
+        getChildStyle(index, total) {
+          if (this.supportsGap) return {};
+
+          const { horizontal, vertical } = this.childSpacing;
+          const isRow = this.direction === 'row' || !this.direction;
+          const isLast = index === total - 1;
+          const marginStyle = {};
+
+          if (isRow) {
+            if (!isLast) marginStyle.marginRight = `${horizontal}px`;
+            if (this.wrap) marginStyle.marginBottom = `${vertical}px`;
+          } else {
+            if (!isLast) marginStyle.marginBottom = `${vertical}px`;
+            if (this.wrap) marginStyle.marginRight = `${horizontal}px`;
+          }
+
+          return marginStyle;
+        }
+      },
+      render(h) {
+        const children = this.$slots.default || [];
+        
+        if (this.supportsGap) {
+          return h('div', {
+            class: 'tiny-space',
+            style: this.spaceStyle
+          }, children);
+        }
+
+        // Fallback for browsers without gap support
+        const wrappedChildren = children.map((child, index) => {
+          return h('div', {
+            style: this.getChildStyle(index, children.length),
+            class: 'tiny-space-item'
+          }, [child]);
+        });
+
+        return h('div', {
+          class: 'tiny-space',
+          style: this.spaceStyle
+        }, wrappedChildren);
+      }
+    });
+
+    new Vue({
+      el: '#app',
+      data: {
+        dynamicSize: 12
+      },
+      computed: {
+        supportsGap() {
+          return supportsFlexboxGap();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

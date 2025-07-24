@@ -1,5 +1,8 @@
 <template>
-  <div class="tiny-space" :style="api.getSpaceStyle()">
+  <div 
+    :class="['tiny-space', spaceStyles.className]" 
+    :style="spaceStylesObject"
+  >
     <slot />
   </div>
 </template>
@@ -30,10 +33,27 @@ export default defineComponent({
   },
   setup(props) {
     const api: SpaceApi = renderless({ props })
+    const spaceStyles = api.getSpaceStyle()
+    
+    // Separate className from style object
+    const { className, ...spaceStylesObject } = spaceStyles
 
     return {
-      api
+      api,
+      spaceStyles: { className },
+      spaceStylesObject
     }
   }
 })
 </script>
+
+<style scoped>
+.tiny-space-item {
+  display: inline-block;
+}
+
+/* Ensure child elements don't have conflicting margins */
+.tiny-space-item > * {
+  margin: 0;
+}
+</style>
